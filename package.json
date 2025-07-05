@@ -1,0 +1,41 @@
+{
+  "name": "wui",
+  "version": "1.0.0",
+  "description": "🧩 A clean UI layer for Discord bots using discord.js components",
+  "author": "silentadv",
+  "license": "MIT",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "dev": "tsup src/index.ts --watch",
+    "build": "tsup src/index.ts",
+    "clean": "rm -rf dist",
+    "prepare": "npm run build"
+  },
+  "dependencies": {
+    "discord.js": "^14.0.0"
+  },
+  "devDependencies": {
+    "tsup": "^7.2.0",
+    "typescript": "^5.4.0"
+  },
+  "keywords": [
+    "discord",
+    "discord.js",
+    "ui",
+    "components",
+    "interaction",
+    "discord-bot",
+    "builder",
+    "componentsV2"
+  ],
+  "sideEffects": false
+}

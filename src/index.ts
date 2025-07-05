@@ -21,7 +21,7 @@ import {
   createBase,
 } from "./layout";
 
-export const w = {
+export const k = {
   // interactive
   button: buttonMap,
   select: selectMenuMap,

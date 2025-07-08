@@ -1,6 +1,6 @@
 {
   "name": "kompozr",
-  "version": "1.0.5",
+  "version": "1.0.7",
   "description": "🧩 A clean UI layer for Discord bots using discord.js components",
   "author": "silentadv",
   "license": "MIT",
@@ -37,7 +37,8 @@
     "componentsV2"
   ],
   "files": [
-    "dist"
+    "dist",
+    "LICENSE"
   ],
   "sideEffects": false
 }

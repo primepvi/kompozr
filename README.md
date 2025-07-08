@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/kompozr.png" alt="kompozr logo" width="320" />
+  <img src="https://raw.githubusercontent.com/primepvi/kompozr/main/assets/kompozr.png" alt="kompozr logo" width="320" />
 </p>
 
 <p align="center">

@@ -6,8 +6,11 @@ import {
   FileBuilder,
   MediaGalleryBuilder,
   ButtonBuilder,
-  SelectMenuBuilder,
   SectionBuilder,
+  StringSelectMenuBuilder,
+  ChannelSelectMenuBuilder,
+  RoleSelectMenuBuilder,
+  MentionableSelectMenuBuilder,
 } from "@discordjs/builders";
 
 import { Colors, RGBTuple } from "discord.js";
@@ -15,7 +18,10 @@ import { createTextDisplay } from "../content/text-display";
 
 export type ContainerComponentItem =
   | ActionRowBuilder<ButtonBuilder>
-  | ActionRowBuilder<SelectMenuBuilder>
+  | ActionRowBuilder<StringSelectMenuBuilder>
+  | ActionRowBuilder<ChannelSelectMenuBuilder>
+  | ActionRowBuilder<RoleSelectMenuBuilder>
+  | ActionRowBuilder<MentionableSelectMenuBuilder>
   | TextDisplayBuilder
   | SectionBuilder
   | string
@@ -26,13 +32,13 @@ export type ContainerComponentItem =
 export interface ContainerData {
   components: ContainerComponentItem[];
   spoiler?: boolean;
-  color?: RGBTuple | keyof typeof Colors;
+  color?: RGBTuple | keyof typeof Colors | number | `#${number}`;
 }
 
 export function createContainer(data: ContainerData) {
   const color =
-    data.color && typeof data.color == "string"
-      ? Colors[data.color]
+    data.color && typeof data.color == "string" && !data.color.startsWith("#")
+      ? Colors[data.color as keyof typeof Colors]
       : data.color;
 
   return new ContainerBuilder({
@@ -42,5 +48,5 @@ export function createContainer(data: ContainerData) {
       return component.toJSON();
     }),
     spoiler: data.spoiler,
-  }).setAccentColor(color);
+  }).setAccentColor(color as RGBTuple);
 }

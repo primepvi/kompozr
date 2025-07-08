@@ -15,12 +15,12 @@ export interface SectionData {
     SectionComponentItem?,
     SectionComponentItem?
   ];
-  acessory: ButtonBuilder | ThumbnailBuilder;
+  accessory: ButtonBuilder | ThumbnailBuilder;
 }
 
 export function createSection(data: SectionData) {
   return new SectionBuilder({
-    accessory: data.acessory.toJSON(),
+    accessory: data.accessory.toJSON(),
     components: data.components
       .map((val) => {
         if (typeof val == "string") return createTextDisplay(val).toJSON();

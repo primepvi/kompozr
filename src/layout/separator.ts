@@ -9,7 +9,7 @@ enum SeparatorStyle {
 
 function createSeparator(style: SeparatorStyle) {
   const divider =
-    style == SeparatorStyle.SmallHidden || style == SeparatorStyle.LargeHidden;
+    style == SeparatorStyle.Small || style == SeparatorStyle.Large;
   const isLargeSpacing =
     style == SeparatorStyle.Large || style == SeparatorStyle.LargeHidden;
 

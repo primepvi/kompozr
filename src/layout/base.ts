@@ -1,31 +1,19 @@
-import {
-  ActionRowBuilder,
-  SeparatorBuilder,
-  TextDisplayBuilder,
-  FileBuilder,
-  MediaGalleryBuilder,
-  ButtonBuilder,
-  SelectMenuBuilder,
-  SectionBuilder,
-} from "@discordjs/builders";
-
 import { createTextDisplay } from "../content/text-display";
-
-export type BaseComponentItem =
-  | ActionRowBuilder<ButtonBuilder>
-  | ActionRowBuilder<SelectMenuBuilder>
-  | SectionBuilder
-  | TextDisplayBuilder
-  | string
-  | SeparatorBuilder
-  | FileBuilder
-  | MediaGalleryBuilder;
+import { ContainerComponentItem } from "./container";
 
 export function createBase(
-  ...components: BaseComponentItem[] | BaseComponentItem[][]
-) {
-  return components.flat(Infinity).map((component) => {
-    if (typeof component == "string") return createTextDisplay(component);
-    return component;
-  });
+  ...components: ContainerComponentItem[] | ContainerComponentItem[][]
+): Exclude<ContainerComponentItem, string>[] {
+  return components
+    .flat(Infinity)
+    .filter(
+      (
+        component
+      ): component is Exclude<ContainerComponentItem, string> | string =>
+        !Array.isArray(component)
+    )
+    .map((component) => {
+      if (typeof component == "string") return createTextDisplay(component);
+      return component;
+    });
 }

@@ -35,7 +35,7 @@ on developer experience.
   - [Modals & Inputs](#modals--inputs)
   - [Layout Components](#layout-components)
   - [Content Components](#content-components)
-  - [Reactive Components](#️-reactive-components)
+  - [Reactive Components](#reactive-components)
 - [Full Example](#full-example)
 - [Full Example With Reactive Components](#full-example-with-reactive-components)
 - [API Reference](#api-reference)

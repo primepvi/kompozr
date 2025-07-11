@@ -21,6 +21,8 @@ import {
   createBase,
 } from "./layout";
 
+import { fragment, memo, stateful } from "./reactive";
+
 export const k = {
   // interactive
   button: buttonMap,
@@ -41,9 +43,15 @@ export const k = {
   thumbnail: createThumbnail,
   gallery: createMediaGallery,
   file: createFile,
+
+  // reactive
+  memo,
+  stateful,
+  fragment,
 };
 
 export type * from "./types";
 export type * from "./content";
 export type * from "./layout";
 export type * from "./interactive";
+export type * from "./reactive";

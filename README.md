@@ -35,7 +35,9 @@ on developer experience.
   - [Modals & Inputs](#modals--inputs)
   - [Layout Components](#layout-components)
   - [Content Components](#content-components)
+  - [Reactive Components](#️-reactive-components)
 - [Full Example](#full-example)
+- [Full Example With Reactive Components](#full-example-with-reactive-components)
 - [API Reference](#api-reference)
 - [TypeScript Support](#typescript-support)
 - [Contributing](#contributing)
@@ -57,6 +59,24 @@ common UI patterns. kompozr introduces a philosophy of **"less builders"**:
 kompozr is **open source** and welcomes contributions! If you have ideas,
 improvements, or new components, feel free to open a PR or issue on
 [GitHub](https://github.com/primepvi/kompozr).
+
+---
+
+## ✨ Features
+
+- **Developer Experience First:** Less boilerplate, more readable code, and a
+  declarative API.
+- **Composable:** Easily combine components and layouts.
+- **All Discord UI Components:** Buttons, select menus (all types), modals,
+  inputs, galleries, files, and more.
+- **Layout Helpers:** Rows, sections, containers, separators, and flexible
+  layouts.
+- **Type-safe:** Written in TypeScript with full type definitions.
+- **Less Builders Philosophy:** No more endless `.addX()` and `.setY()`
+  chains—just describe your UI in objects and arrays.
+- **Reactive Utilities:** Advanced helpers for stateful, memoized, and reusable
+  UI fragments.
+- **Open Source:** Contributions and PRs are welcome!
 
 ---
 
@@ -118,6 +138,14 @@ const linkButton = k.button.link({
 Select menus allow users to pick one or more options from a dropdown. kompozr
 supports all Discord select menu types, including string, role, user, channel,
 and mentionable selects. Each select requires a `cid` and an array of options.
+
+> **Default Values:**  
+> For select menus that support default values (user, role, channel,
+> mentionable), use the `defaultValues` property and the helpers:
+>
+> - `k.selectValue.user(id)`
+> - `k.selectValue.role(id)`
+> - `k.selectValue.channel(id)`
 
 ```ts
 const selectMenu = k.select.string({
@@ -326,6 +354,122 @@ const gallery = k.gallery(
 
 ---
 
+### Reactive Components
+
+kompozr also provides a set of **reactive utilities** for advanced UI
+composition and state management. These are useful for building dynamic,
+stateful, or memoized UI fragments in your Discord bot.
+
+#### When to Use
+
+- When you want to **reuse UI fragments** with different props (like React
+  fragments).
+- When you need to **memoize** expensive UI computations and only update when
+  dependencies change.
+- When you want to **manage local state** for a UI component or section.
+
+---
+
+#### `k.fragment<Props>`
+
+Creates a reusable UI fragment (like a functional component).  
+Use when you want to generate repeated or parameterized UI blocks.
+
+**Example:**
+
+```ts
+interface User {
+  id: string;
+  username: string;
+}
+
+// type anotation only is necessary in typescript projects.
+// In javascript projects just call k.fragment(...)
+
+const UserSection = k.fragment<User>((user) =>
+  k.section({
+    components: [`User: ${user.username}`],
+    accessory: k.button.primary({ cid: `user_${user.id}`, label: "Select" }),
+  })
+);
+
+// Usage:
+const users = [
+  { id: "1", username: "Alice" },
+  { id: "2", username: "Bob" },
+];
+const userSections = UserSection(users); // returns an array of sections
+```
+
+**Use case:**  
+Reusable UI blocks for lists, cards, or repeated sections.
+
+---
+
+#### `k.memo`
+
+Memoizes a UI fragment, only recomputing when dependencies change.  
+Use when you have expensive UI generation logic and want to avoid unnecessary
+recomputation.
+
+**Example:**
+
+```ts
+interface Props {
+  value: number;
+}
+
+// type anotation only is necessary in typescript projects.
+// In javascript projects just use (props) => ... and (props) => [...]
+
+const ExpensiveSection = k.memo(
+  (props: Props) =>
+    k.section({
+      components: [`Value: ${props.value}`],
+      accessory: k.button.primary({ cid: "btn", label: "Go" }),
+    }),
+  (props: Props) => [props.value] // dependencies
+);
+
+// Usage:
+const section = ExpensiveSection({ value: 42 }); // build
+
+ExpensiveSection({ value: 42 }); // cached
+ExpensiveSection({ value: 44 }); // rebuild because dependencies are changed
+ExpensiveSection({ value: 44 }); // cached
+ExpensiveSection({ value: 42 }); // rebuild because dependencies are changed
+```
+
+**Use case:**  
+Performance optimization for dynamic UIs that depend on changing props.
+
+---
+
+#### `k.stateful`
+
+Creates a stateful UI component with local state and an update method.  
+Use when you want to encapsulate state and rendering logic together.
+
+**Example:**
+
+```ts
+const counter = k.stateful({ count: 0 }, (state) =>
+  k.section({
+    components: [`Count: ${state.count}`],
+    accessory: k.button.primary({ cid: "inc", label: "Increment" }),
+  })
+);
+
+// Usage:
+counter.render(); // renders with current state
+counter.update({ count: counter.state.count + 1 }); // update state
+```
+
+**Use case:**  
+Local state management for interactive or dynamic UI sections.
+
+---
+
 ## Full Example
 
 ```ts
@@ -359,6 +503,32 @@ const message = k.container({
 
 ---
 
+## Full Example with Reactive Components
+
+```ts
+const UserCard = k.fragment<User>((user) =>
+  k.section({
+    components: [`👤 ${user.name}`],
+    accessory: k.button.primary({ cid: `select_${user.id}`, label: "Select" }),
+  })
+);
+
+const userList: User[] = [
+  { id: "1", name: "Alice" },
+  { id: "2", name: "Bob" },
+];
+
+const message = k.container({
+  components: [
+    ...UserCard(userList), // list of sections
+    k.separator.small,
+    k.text("Select a user!"),
+  ],
+});
+```
+
+---
+
 ## API Reference
 
 All builder functions return Discord.js builder instances, ready to be used in
@@ -373,6 +543,7 @@ your bot's responses.
 - **Modals & Inputs:** `k.modal`, `k.input.short`, `k.input.paragraph`
 - **Layout:** `k.row`, `k.section`, `k.container`, `k.separator`, `k.layout`
 - **Content:** `k.text`, `k.thumbnail`, `k.gallery`, `k.file`
+- **Reactive:** `k.memo`, `k.stateful`, `k.fragment`
 
 ---
 

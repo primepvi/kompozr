@@ -1,6 +1,6 @@
 {
   "name": "kompozr",
-  "version": "1.0.7",
+  "version": "1.1.0",
   "description": "🧩 A clean UI layer for Discord bots using discord.js components",
   "author": "silentadv",
   "license": "MIT",
@@ -15,7 +15,7 @@
     }
   },
   "scripts": {
-    "dev": "tsup src/index.ts --watch",
+    "dev": "tsx src/index.ts --watch",
     "build": "tsup src/index.ts",
     "clean": "rm -rf dist"
   },
@@ -24,6 +24,7 @@
   },
   "devDependencies": {
     "tsup": "^7.2.0",
+    "tsx": "^4.20.3",
     "typescript": "^5.4.0"
   },
   "keywords": [

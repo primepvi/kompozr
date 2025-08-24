@@ -1,17 +1,16 @@
 import { SeparatorBuilder, SeparatorSpacingSize } from "discord.js";
 
-enum SeparatorStyle {
-  Small,
-  Large,
-  SmallHidden,
-  LargeHidden,
-}
+type SeparatorStyle = 
+  "Small"
+  | "Large"
+  | "SmallHidden"
+  | "LargeHidden"
 
 function createSeparator(style: SeparatorStyle) {
   const divider =
-    style == SeparatorStyle.Small || style == SeparatorStyle.Large;
+    style == "Small" || style == "Large";
   const isLargeSpacing =
-    style == SeparatorStyle.Large || style == SeparatorStyle.LargeHidden;
+    style == "Large" || style == "LargeHidden";
 
   return new SeparatorBuilder({
     divider,
@@ -22,8 +21,8 @@ function createSeparator(style: SeparatorStyle) {
 }
 
 export const separatorMap = {
-  small: createSeparator(SeparatorStyle.Small),
-  smallHidden: createSeparator(SeparatorStyle.SmallHidden),
-  large: createSeparator(SeparatorStyle.Large),
-  largeHidden: createSeparator(SeparatorStyle.LargeHidden),
+  small: createSeparator("Small"),
+  smallHidden: createSeparator("SmallHidden"),
+  large: createSeparator("Large"),
+  largeHidden: createSeparator("LargeHidden"),
 };
